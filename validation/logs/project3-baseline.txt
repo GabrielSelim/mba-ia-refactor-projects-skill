@@ -1,0 +1,53 @@
+
+=== SMOKE
+GET    /                                  -> 200  ['message', 'version']
+GET    /health                            -> 200  ['status', 'timestamp']
+GET    /tasks                             -> 200  list[10] ['category_id', 'category_name', 'created_at', 'description', 'due_date', 'id', 'overdue', 'priority', 'status', 'tags', 'title', 'updated_at', 'user_id', 'user_name']
+GET    /tasks/1                           -> 200  ['category_id', 'created_at', 'description', 'due_date', 'id', 'overdue', 'priority', 'status', 'tags', 'title', 'updated_at', 'user_id']
+GET    /tasks/9999                        -> 404  ['error']
+POST   /tasks                             -> 201  ['category_id', 'created_at', 'description', 'due_date', 'id', 'priority', 'status', 'tags', 'title', 'updated_at', 'user_id']
+POST   /tasks                             -> 400  ['error']
+POST   /tasks                             -> 500  '<!doctype html>\n<html lang=en>\n  <head>\n    <title>TypeError'
+PUT    /tasks/11                          -> 200  ['category_id', 'created_at', 'description', 'due_date', 'id', 'priority', 'status', 'tags', 'title', 'updated_at', 'user_id']
+PUT    /tasks/11                          -> 400  ['error']
+GET    /tasks/search?q=API                -> 200  list[2] ['category_id', 'created_at', 'description', 'due_date', 'id', 'priority', 'status', 'tags', 'title', 'updated_at', 'user_id']
+GET    /tasks/search?priority=abc         -> 500  '<!doctype html>\n<html lang=en>\n  <head>\n    <title>ValueErro'
+GET    /tasks/stats                       -> 200  ['cancelled', 'completion_rate', 'done', 'in_progress', 'overdue', 'pending', 'total']
+DELETE /tasks/11                          -> 200  ['message']
+GET    /users                             -> 200  list[3] ['active', 'created_at', 'email', 'id', 'name', 'role', 'task_count']
+GET    /users/1                           -> 200  ['active', 'created_at', 'email', 'id', 'name', 'password', 'role', 'tasks']
+POST   /users                             -> 201  ['active', 'created_at', 'email', 'id', 'name', 'password', 'role']
+POST   /users                             -> 409  ['error']
+PUT    /users/4                           -> 200  ['active', 'created_at', 'email', 'id', 'name', 'password', 'role']
+GET    /users/1/tasks                     -> 200  list[4] ['created_at', 'description', 'due_date', 'id', 'overdue', 'priority', 'status', 'title']
+POST   /login                             -> 200  ['message', 'token', 'user']
+POST   /login                             -> 401  ['error']
+DELETE /users/4                           -> 200  ['message']
+GET    /reports/summary                   -> 200  ['generated_at', 'overdue', 'overview', 'recent_activity', 'tasks_by_priority', 'tasks_by_status', 'user_productivity']
+GET    /reports/user/1                    -> 200  ['statistics', 'user']
+GET    /categories                        -> 200  list[4] ['color', 'created_at', 'description', 'id', 'name', 'task_count']
+POST   /categories                        -> 201  ['color', 'created_at', 'description', 'id', 'name']
+PUT    /categories/5                      -> 200  ['color', 'created_at', 'description', 'id', 'name']
+PUT    /categories/5                      -> 400  '<!doctype html>\n<html lang=en>\n<title>400 Bad Request</title'
+DELETE /categories/5                      -> 200  ['message']
+=== APP LOG (warnings/errors)
+      1 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+      2     response = self.handle_exception(e)
+      2     rv = self.handle_user_exception(e)
+      1 /app/routes/report_routes.py:105: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/report_routes.py:133: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/report_routes.py:192: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/report_routes.py:213: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/report_routes.py:35: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/report_routes.py:42: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/report_routes.py:45: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/report_routes.py:71: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/task_routes.py:117: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/task_routes.py:122: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/task_routes.py:158: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/task_routes.py:215: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/task_routes.py:227: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/task_routes.py:285: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/task_routes.py:31: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+      1 /app/routes/task_routes.py:42: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+      1 /app/routes/task_routes.py:51: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
