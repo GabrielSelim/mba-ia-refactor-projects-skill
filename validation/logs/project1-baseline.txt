@@ -1,0 +1,30 @@
+  _sslobj = _ssl.create_default_context().wrap_bio(
+
+=== SMOKE
+GET    /                                -> 200  ['endpoints', 'mensagem', 'versao']
+GET    /health                          -> 200  ['ambiente', 'counts', 'database', 'db_path', 'debug', 'secret_key', 'status', 'versao']
+GET    /produtos                        -> 200  ['dados', 'sucesso']
+GET    /produtos/busca?q=Mouse&categoria=informatica -> 200  ['dados', 'sucesso', 'total']
+GET    /produtos/1                      -> 200  ['dados', 'sucesso']
+GET    /produtos/9999                   -> 404  ['erro', 'sucesso']
+POST   /produtos                        -> 201  ['dados', 'mensagem', 'sucesso']
+PUT    /produtos/11                     -> 200  ['mensagem', 'sucesso']
+POST   /produtos                        -> 400  ['erro']
+GET    /usuarios                        -> 200  ['dados', 'sucesso']
+GET    /usuarios/1                      -> 200  ['dados', 'sucesso']
+POST   /usuarios                        -> 201  ['dados', 'sucesso']
+POST   /login                           -> 200  ['dados', 'mensagem', 'sucesso']
+POST   /login                           -> 401  ['erro', 'sucesso']
+POST   /login                           -> 200  ['dados', 'mensagem', 'sucesso']
+POST   /pedidos                         -> 201  ['dados', 'mensagem', 'sucesso']
+POST   /pedidos                         -> 400  ['erro', 'sucesso']
+GET    /pedidos                         -> 200  ['dados', 'sucesso']
+GET    /pedidos/usuario/2               -> 200  ['dados', 'sucesso']
+PUT    /pedidos/1/status                -> 200  ['mensagem', 'sucesso']
+PUT    /pedidos/1/status                -> 400  ['erro']
+GET    /relatorios/vendas               -> 200  ['dados', 'sucesso']
+DELETE /produtos/11                     -> 200  ['mensagem', 'sucesso']
+POST   /admin/query                     -> 200  ['dados', 'sucesso']
+POST   /admin/reset-db                  -> 200  ['mensagem', 'sucesso']
+=== APP LOG (warnings/errors)
+      1 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
