@@ -1,0 +1,18 @@
+POST   /api/checkout                  -> 200  ["enrollment_id","msg"]
+POST   /api/checkout                  -> 400  ["error"]
+POST   /api/checkout                  -> 404  ["error"]
+POST   /api/checkout                  -> 400  ["error"]
+POST   /api/checkout                  -> 200  ["enrollment_id","msg"]
+GET    /api/admin/financial-report    -> 200  array[2] ["course","revenue","students"]
+       report: [{"course":"Clean Architecture","revenue":997,"students":[{"student":"Leonan","paid":997}]},{"course":"Docker","revenue":994,"students":[{"student":"Guilherme","paid":497},{"student":"Leonan","paid":497}]}]
+DELETE /api/users/1                   -> 200  ["msg"]
+GET    /api/admin/financial-report    -> 200  array[2] ["course","revenue","students"]
+       report after delete: [{"course":"Clean Architecture","revenue":0,"students":[]},{"course":"Docker","revenue":497,"students":[{"student":"Guilherme","paid":497}]}]
+=== APP LOG
+2026-11-09T13:39:34.223Z INFO LMS API rodando na porta 3000
+2026-11-09T13:39:34.372Z INFO payment_processing {"card_last4":"4444","amount":497,"live":false}
+2026-11-09T13:39:34.419Z INFO checkout_completed {"course_id":2,"enrollment_id":2}
+2026-11-09T13:39:34.429Z INFO payment_processing {"card_last4":"4444","amount":997,"live":false}
+2026-11-09T13:39:34.476Z INFO payment_processing {"card_last4":"0002","amount":497,"live":false}
+2026-11-09T13:39:34.476Z INFO checkout_completed {"course_id":2,"enrollment_id":3}
+2026-11-09T13:39:34.507Z INFO user_deleted {"user_id":1}

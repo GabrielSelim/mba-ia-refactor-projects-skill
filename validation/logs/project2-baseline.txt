@@ -1,0 +1,12 @@
+POST   /api/checkout                  -> 200  ["enrollment_id","msg"]
+POST   /api/checkout                  -> 400  text "Pagamento recusado"
+POST   /api/checkout                  -> 404  text "Curso não encontrado"
+POST   /api/checkout                  -> 400  text "Bad Request"
+POST   /api/checkout                  -> 200  ["enrollment_id","msg"]
+GET    /api/admin/financial-report    -> 200  array[2] ["course","revenue","students"]
+       report: [{"course":"Clean Architecture","revenue":997,"students":[{"student":"Leonan","paid":997}]},{"course":"Docker","revenue":994,"students":[{"student":"Guilherme","paid":497},{"student":"Leonan","paid":497}]}]
+DELETE /api/users/1                   -> 200  text "Usuário deletado, mas as matrículas e pagamentos ficaram suj"
+GET    /api/admin/financial-report    -> 200  array[2] ["course","revenue","students"]
+       report after delete: [{"course":"Clean Architecture","revenue":997,"students":[{"student":"Unknown","paid":997}]},{"course":"Docker","revenue":994,"students":[{"student":"Guilherme","paid":497},{"student":"Unknown","paid":497}]}]
+=== APP LOG
+Frankenstein LMS rodando na porta 3000...
